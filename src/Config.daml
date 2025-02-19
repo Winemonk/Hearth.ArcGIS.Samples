@@ -1,0 +1,55 @@
+﻿<ArcGIS defaultAssembly="Hearth.ArcGIS.Samples.dll" defaultNamespace="Hearth.ArcGIS.Samples" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///D:/software/GeoScene/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+	<AddInInfo id="{25c88cc5-4fc0-4857-a26c-dfecea76f568}" version="1.0" desktopVersion="3.0.36057">
+		<Name>Hearth.ArcGIS.Samples</Name>
+		<Description>Hearth.ArcGIS.Samples description</Description>
+		<Image>Images\AddinDesktop32.png</Image>
+		<Author>admin</Author>
+		<Company>Acme</Company>
+		<Date>2025/2/19 10:59:53</Date>
+		<Subject>Framework</Subject>
+	</AddInInfo>
+	<modules>
+		<insertModule id="Hearth_ArcGIS_Samples_Module" className="Module1" autoLoad="false" caption="Module1">
+			<tabs>
+				<tab id="Hearth_ArcGIS_Samples_Tab1" caption="New Tab">
+					<group refID="Hearth_ArcGIS_Samples_Group1" />
+				</tab>
+			</tabs>
+			<groups>
+				<group id="Hearth_ArcGIS_Samples_Group1" caption="Group 1" appearsOnAddInTab="true">
+					<button refID="Hearth_ArcGIS_Samples_PlugIns_Menus_SampleButton1" size="large" />
+					<button refID="Hearth_ArcGIS_Samples_PlugIns_Menus_OpenSampleWindow1Button" size="large" />
+					<button refID="Hearth_ArcGIS_Samples_PlugIns_Menus_OpenOptionsSamplePaneButton" size="large" />
+					<button refID="Hearth_ArcGIS_Samples_PlugIns_Menus_LogSampleButton" size="large" />
+				</group>
+			</groups>
+			<controls>
+				<button id="Hearth_ArcGIS_Samples_PlugIns_Menus_SampleButton1" caption="依赖注入样例" className="Hearth.ArcGIS.Samples.PlugIns.Menus.SampleButton1" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue32.png">
+					<tooltip heading="提示">
+						依赖注入样例<disabledText />
+					</tooltip>
+				</button>
+				<button id="Hearth_ArcGIS_Samples_PlugIns_Menus_OpenSampleWindow1Button" caption="视图模型定位器样例" className="Hearth.ArcGIS.Samples.PlugIns.Menus.OpenSampleWindow1Button" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue32.png">
+					<tooltip heading="提示">
+						视图模型定位器样例<disabledText />
+					</tooltip>
+				</button>
+				<button id="Hearth_ArcGIS_Samples_PlugIns_Menus_OpenOptionsSamplePaneButton" caption="配置样例" className="Hearth.ArcGIS.Samples.PlugIns.Menus.OpenOptionsSamplePaneButton" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue32.png">
+					<tooltip heading="提示">
+						配置样例<disabledText />
+					</tooltip>
+				</button>
+				<button id="Hearth_ArcGIS_Samples_PlugIns_Menus_LogSampleButton" caption="日志样例" className="Hearth.ArcGIS.Samples.PlugIns.Menus.LogSampleButton" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue32.png">
+					<tooltip heading="提示">
+						日志样例<disabledText />
+					</tooltip>
+				</button>
+			</controls>
+			<panes>
+				<pane id="Hearth_ArcGIS_Samples_PlugIns_Panes_OptionsSamplePane" caption="配置样例" className="Hearth.ArcGIS.Samples.PlugIns.Panes.OptionsSamplePaneViewModel" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonGreen16.png" defaultTab="esri_mapping_homeTab" defaultTool="esri_mapping_navigateTool">
+					<content className="Hearth.ArcGIS.Samples.PlugIns.Panes.OptionsSamplePaneView" />
+				</pane>
+			</panes>
+		</insertModule>
+	</modules>
+</ArcGIS>

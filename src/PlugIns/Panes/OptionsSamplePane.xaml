@@ -1,0 +1,76 @@
+﻿<UserControl
+    x:Class="Hearth.ArcGIS.Samples.PlugIns.Panes.OptionsSamplePaneView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="clr-namespace:ArcGIS.Desktop.Extensions;assembly=ArcGIS.Desktop.Extensions"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="clr-namespace:Hearth.ArcGIS.Samples.PlugIns.Panes"
+    d:DesignHeight="600"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <d:UserControl.DataContext>
+        <ui:OptionsSamplePaneViewModel />
+    </d:UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="全局">
+            <StackPanel Orientation="Vertical">
+                <Button
+                    Margin="3"
+                    Command="{Binding RefreshOptionsCommand}"
+                    Content="刷新"
+                    Style="{StaticResource Esri_Button}" />
+                <Label Content="OptionsValue: " />
+                <TextBox
+                    Height="180"
+                    Margin="3"
+                    Text="{Binding OptionsValue}" />
+                <Label Content="OptionsMonitorValue: " />
+                <TextBox
+                    Height="180"
+                    Margin="3"
+                    Text="{Binding OptionsMonitorValue}" />
+                <Label Content="OptionsSnapshotValue: " />
+                <TextBox
+                    Height="180"
+                    Margin="3"
+                    Text="{Binding OptionsSnapshotValue}" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="范围">
+            <StackPanel Orientation="Vertical">
+                <Button
+                    Margin="3"
+                    Command="{Binding RefreshScopeOptionsCommand}"
+                    Content="刷新"
+                    Style="{StaticResource Esri_Button}" />
+                <Label Content="ScopeOptionsValue: " />
+                <TextBox
+                    Height="180"
+                    Margin="3"
+                    Text="{Binding ScopeOptionsValue}" />
+                <Label Content="ScopeOptionsMonitorValue: " />
+                <TextBox
+                    Height="180"
+                    Margin="3"
+                    Text="{Binding ScopeOptionsMonitorValue}" />
+                <Label Content="ScopeOptionsSnapshotValue: " />
+                <TextBox
+                    Height="180"
+                    Margin="3"
+                    Text="{Binding ScopeOptionsSnapshotValue}" />
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

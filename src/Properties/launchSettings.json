@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Hearth.ArcGIS.Samples": {
+      "commandName": "Executable",
+      "executablePath": "D:\\software\\GeoScene\\Pro\\bin\\GeoScenePro.exe"
+    }
+  }
+}

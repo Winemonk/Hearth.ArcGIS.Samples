@@ -1,0 +1,26 @@
+﻿<Window
+    x:Class="Hearth.ArcGIS.Samples.Dialogs.SampleWindow1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ha="clr-namespace:Hearth.ArcGIS;assembly=Hearth.ArcGIS"
+    xmlns:local="clr-namespace:Hearth.ArcGIS.Samples.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="SampleWindow1"
+    Width="800"
+    Height="450"
+    ha:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <!--  在设计时，将DataContext设置为SampleWindow1ViewModel，可以预览属性绑定效果，在运行时不会生效。  -->
+    <d:Window.DataContext>
+        <local:SampleWindow1ViewModel />
+    </d:Window.DataContext>
+    <Grid>
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="24"
+            FontWeight="Bold"
+            Text="{Binding SampleText}" />
+    </Grid>
+</Window>
