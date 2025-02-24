@@ -18,7 +18,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Hearth.ArcGIS\Hearth.ArcGIS.csproj" />
+    <PackageReference Include="Hearth.ArcGIS" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ArcGIS.Desktop.Framework">
