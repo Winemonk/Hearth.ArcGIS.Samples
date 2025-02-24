@@ -48,7 +48,7 @@
                     Text="{Binding OptionsSnapshotValue}" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Column="1" Header="范围">
+        <GroupBox Grid.Column="1" Header="作用域">
             <StackPanel Orientation="Vertical">
                 <Button
                     Margin="3"

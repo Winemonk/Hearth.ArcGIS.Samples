@@ -4,9 +4,11 @@
 
 ### 1.1 服务注册
 
-需要注册服务类型时，首先需要在服务类型上添加`[Service]`标记，然后在模块加载时调用`IRegistrable.RegisterServices()`或`HearthApp.App.RegisterAssemblyAndRefrencedAssembliesTypes(Assembly assembly)`方法，自动注册模块`Assembly`及所引用的全部`Assembly`中的服务类型。
+#### 1.1.1 标记服务 
 
-标记服务特性：
+**1. 方式一**
+
+需要注册服务类型时，在服务类型上添加`[Service]`标记：
 
 ```csharp
 namespace Hearth.ArcGIS.Samples.Services
@@ -23,7 +25,7 @@ using ArcGIS.Desktop.Framework.Dialogs;
 
 namespace Hearth.ArcGIS.Samples.Services
 {
-    [Service(typeof(IHelloService))]
+    [Service]
     public class HelloService : IHelloService
     {
         public void SayHello()
@@ -34,35 +36,13 @@ namespace Hearth.ArcGIS.Samples.Services
 }
 ```
 
-注册程序集类型：
-
-```csharp
-using ArcGIS.Desktop.Framework;
-using ArcGIS.Desktop.Framework.Contracts;
-
-namespace Hearth.ArcGIS.Samples
-{
-    internal class Module1 : Module
-    {
-        private static Module1 _this = null;
-
-        public static Module1 Current => _this ??= (Module1)FrameworkApplication.FindModule("Hearth_ArcGIS_Samples_Module");
-
-        public Module1()
-        {
-            HearthApp.App.RegisterAssemblyAndRefrencedAssembliesTypes(this.GetType().Assembly);
-        }
-    }
-}
-```
-
-#### 1.1.1 `ServiceAttribute`服务特性
+`ServiceAttribute`服务标记特性
 
 ```csharp
 namespace Hearth.ArcGIS
 {
     /// <summary>
-    /// 服务特性
+    /// 服务标记特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public sealed class ServiceAttribute : Attribute
@@ -88,7 +68,7 @@ namespace Hearth.ArcGIS
         /// <param name="serviceType"> 服务注册类型 </param>
         /// <param name="serviceKey"> 服务注册键 </param>
         /// <param name="reuse"> 服务重用模式 </param>
-        public ServiceAttribute(Type? serviceType, string? serviceKey = null, ReuseEnum reuse = ReuseEnum.Default)
+        public ServiceAttribute(Type? serviceType = null, string? serviceKey = null, ReuseEnum reuse = ReuseEnum.Default)
         {
             ServiceType = serviceType;
             ServiceKey = serviceKey;
@@ -97,6 +77,7 @@ namespace Hearth.ArcGIS
     }
 }
 ```
+
 
 `ReuseEnum`服务重用模式：
 
@@ -126,7 +107,7 @@ namespace Hearth.ArcGIS
         Scoped,
 
         /// <summary>
-        /// 与 <see cref="Scoped"/> 相同，但在没有可用范围的情况下，将回退到 <see cref="Singleton"/> 重用。
+        /// 与 <see cref="Scoped"/> 相同，但在没有可用作用域的情况下，将回退到 <see cref="Singleton"/> 重用。
         /// </summary>
         ScopedOrSingleton,
 
@@ -139,6 +120,51 @@ namespace Hearth.ArcGIS
         /// 瞬态，即不会重复使用。
         /// </summary>
         Transient,
+    }
+}
+```
+
+**1. 方式二**
+
+使需要注册服务类型实现`ITransientService`、`ISingletonService`、`IScopedService`、`IScopedOrSingletonService`、`IInThreadService`接口：
+
+```csharp
+using ArcGIS.Desktop.Framework.Dialogs;
+
+namespace Hearth.ArcGIS.Samples.Services
+{
+    public class HelloService : IHelloService, ITransientService
+    {
+        public void SayHello()
+        {
+            MessageBox.Show("Hello, World!", this.GetType().Name);
+        }
+    }
+}
+```
+
+#### 1.1.2 注册服务
+
+在模块加载时调用`HearthApp.Container.RegisterAssemblyAndRefrencedAssembliesTypes(Assembly assembly)`方法，自动注册模块`Assembly`及所引用的全部`Assembly`中的服务类型。
+
+注册程序集类型：
+
+```csharp
+using ArcGIS.Desktop.Framework;
+using ArcGIS.Desktop.Framework.Contracts;
+
+namespace Hearth.ArcGIS.Samples
+{
+    internal class Module1 : Module
+    {
+        private static Module1 _this = null;
+
+        public static Module1 Current => _this ??= (Module1)FrameworkApplication.FindModule("Hearth_ArcGIS_Samples_Module");
+
+        public Module1()
+        {
+            HearthApp.App.RegisterAssemblyAndRefrencedAssembliesTypes(this.GetType().Assembly);
+        }
     }
 }
 ```
@@ -165,7 +191,7 @@ using Hearth.ArcGIS.Samples.Services;
 
 namespace Hearth.ArcGIS.Samples.PlugIns.Menus
 {
-    internal class SampleButton1 : Button, IInjectable
+    internal class SampleButton1 : Button, IInjectable // IScopeInjectable 使用作用域注入
     {
         [Inject]
         private readonly IHelloService? _helloService;
@@ -173,6 +199,7 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Menus
         public SampleButton1()
         {
             this.InjectServices();
+            // this.InjectPropertiesAndFields(); // 不需要[Inject]特性标注注入字段/属性，但字段/属性也不能使用 readonly/init
         }
 
         protected override void OnClick()
@@ -194,7 +221,7 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Contracts
     {
         public InjectableButton()
         {
-            this.InjectServices();
+            this.InjectPropertiesAndFields();
         }
     }
 }
@@ -210,8 +237,7 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Menus
 {
     internal class SampleButton1 : InjectableButton
     {
-        [Inject]
-        private readonly IHelloService? _helloService;
+        private IHelloService? _helloService;
 
         protected override void OnClick()
         {
@@ -372,6 +398,55 @@ namespace Hearth.ArcGIS.Samples.Dialogs
 </Window>
 ```
 
+### 1.3 自定义容器初始化
+
+HearthApp已经内置了DryIoc容器初始化、Nlog、ViewModelLocationProvider集成，当然也支持自定义初始化。
+
+实现`ContainerBuilderBase`与`HearthAppBase`：
+
+```csharp
+using DryIoc;
+
+namespace Hearth.ArcGIS.Samples
+{
+    public class CustomContainerBuilder : ContainerBuilder
+    {
+        public override Container Build()
+        {
+            Container container = new Container(
+                rules => rules
+                    .With(
+                        FactoryMethod.ConstructorWithResolvableArgumentsIncludingNonPublic,
+                        null,
+                        PropertiesAndFields.All()));
+            return container;
+        }
+    }
+}
+```
+
+```csharp
+namespace Hearth.ArcGIS.Samples
+{
+    public class CustomHearthApp : HearthAppBase
+    {
+        private static CustomHearthApp? _instance;
+        public static CustomHearthApp Instance => _instance ??= new CustomHearthApp(new CustomContainerBuilder());
+        public CustomHearthApp(ContainerBuilderBase containerBuilder) : base(containerBuilder)
+        {
+
+        }
+    }
+}
+```
+
+在使用依赖注入之前完成容器初始化、服务注册。
+
+```csharp
+CustomHearthApp.Instance.Container.RegisterAssemblyAndRefrencedAssembliesTypes(this.GetType().Assembly);
+```
+
+
 ## 2 使用Options配置
 
 ### 2.1 创建配置类
@@ -480,7 +555,7 @@ namespace Hearth.ArcGIS.Samples
                     Text="{Binding OptionsSnapshotValue}" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Column="1" Header="范围">
+        <GroupBox Grid.Column="1" Header="作用域">
             <StackPanel Orientation="Vertical">
                 <Button
                     Margin="3"
@@ -527,7 +602,7 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Panes
         [Inject]
         private readonly IOptionsMonitor<SampleSettings>? _optionsMonitor; // 实时监测配置变化，变化时可以触发通知
         [Inject]
-        private readonly IOptionsSnapshot<SampleSettings>? _optionsSnapshot; // 在每个容器范围内只会初始化一次，不会发生变化
+        private readonly IOptionsSnapshot<SampleSettings>? _optionsSnapshot; // 在每个容器作用域内只会初始化一次，不会发生变化
 
         private IDisposable? _optionsMonitorDisposable;
 
@@ -612,7 +687,7 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Panes
             // 修改配置文件后刷新
             OptionsValue = JsonSerializer.Serialize(_options?.Value, options); // 不会变化
             OptionsMonitorValue = JsonSerializer.Serialize(_optionsMonitor?.CurrentValue, options); // 会实时变化
-            OptionsSnapshotValue = JsonSerializer.Serialize(_optionsSnapshot?.Value, options); // 不会变化（因为当前实例使用的是应用程序全局范围）
+            OptionsSnapshotValue = JsonSerializer.Serialize(_optionsSnapshot?.Value, options); // 不会变化（因为当前实例使用的是应用程序全局作用域）
         }
 
         private void RefreshScopeOptions()

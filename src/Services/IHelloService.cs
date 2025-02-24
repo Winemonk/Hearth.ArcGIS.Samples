@@ -1,6 +1,6 @@
 ﻿namespace Hearth.ArcGIS.Samples.Services
 {
-    public interface IHelloService
+    public interface IHelloService : ITransientService
     {
         void SayHello();
     }

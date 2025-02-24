@@ -30,7 +30,8 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Menus
             _typeLogger?.LogError("Not configured Type Logger Class LogError");
             _typeLogger?.LogCritical("Not configured Type Logger Class LogCritical");
 
-            _testLogService?.WriteLog();
+            _testLogService?.WriteLogs();
+            _testLogService?.WriteStructuredLogs();
         }
     }
 }

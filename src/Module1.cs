@@ -25,9 +25,10 @@ namespace Hearth.ArcGIS.Samples
             //     ]
             // }
             IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("samplesettings.json", true, true).Build();
-            HearthApp.App.Configure<SampleSettings>(configuration.GetSection(typeof(SampleSettings).Name));
-
-            HearthApp.App.RegisterAssemblyAndRefrencedAssembliesTypes(this.GetType().Assembly);
+            //CustomHearthApp.Instance.Container.Configure<SampleSettings>(configuration.GetSection(typeof(SampleSettings).Name));
+            //CustomHearthApp.Instance.Container.RegisterAssemblyAndRefrencedAssembliesTypes(this.GetType().Assembly);
+            HearthApp.CONTAINER.Configure<SampleSettings>(configuration.GetSection(typeof(SampleSettings).Name));
+            HearthApp.CONTAINER.RegisterAssemblyAndRefrencedAssembliesTypes(this.GetType().Assembly);
         }
     }
 }

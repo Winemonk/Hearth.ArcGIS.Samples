@@ -2,7 +2,7 @@
 
 namespace Hearth.ArcGIS.Samples.Services
 {
-    [Service(typeof(IHearthHelloService))]
+    [Service]
     public class HearthHelloService : IHearthHelloService
     {
         private readonly IHelloService _helloService;

@@ -2,7 +2,6 @@
 
 namespace Hearth.ArcGIS.Samples.Services
 {
-    [Service(typeof(IHelloService))]
     public class HelloService : IHelloService
     {
         public void SayHello()

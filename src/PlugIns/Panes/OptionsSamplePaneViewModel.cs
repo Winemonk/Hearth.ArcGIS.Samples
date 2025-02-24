@@ -16,7 +16,7 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Panes
         [Inject]
         private readonly IOptionsMonitor<SampleSettings>? _optionsMonitor; // 实时监测配置变化，变化时可以触发通知
         [Inject]
-        private readonly IOptionsSnapshot<SampleSettings>? _optionsSnapshot; // 在每个容器范围内只会初始化一次，不会发生变化
+        private readonly IOptionsSnapshot<SampleSettings>? _optionsSnapshot; // 在每个容器作用域内只会初始化一次，不会发生变化
 
         private IDisposable? _optionsMonitorDisposable;
 
@@ -101,7 +101,7 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Panes
             // 修改配置文件后刷新
             OptionsValue = JsonSerializer.Serialize(_options?.Value, options); // 不会变化
             OptionsMonitorValue = JsonSerializer.Serialize(_optionsMonitor?.CurrentValue, options); // 会实时变化
-            OptionsSnapshotValue = JsonSerializer.Serialize(_optionsSnapshot?.Value, options); // 不会变化（因为当前实例使用的是应用程序全局范围）
+            OptionsSnapshotValue = JsonSerializer.Serialize(_optionsSnapshot?.Value, options); // 不会变化（因为当前实例使用的是应用程序全局作用域）
         }
 
         private void RefreshScopeOptions()
@@ -111,15 +111,13 @@ namespace Hearth.ArcGIS.Samples.PlugIns.Panes
                 WriteIndented = true,
             };
             // 修改配置文件后刷新
-            using (IResolverContext resolver = HearthApp.AppContainer.OpenScope())
-            {
-                IOptions<SampleSettings> scopeOptions = resolver.Resolve<IOptions<SampleSettings>>();
-                IOptionsMonitor<SampleSettings> scopeOptionsMonitor = resolver.Resolve<IOptionsMonitor<SampleSettings>>();
-                IOptionsSnapshot<SampleSettings> scopeOptionsSnapshot = resolver.Resolve<IOptionsSnapshot<SampleSettings>>();
-                ScopeOptionsValue = JsonSerializer.Serialize(scopeOptions.Value, options); // 不会变化
-                ScopeOptionsMonitorValue = JsonSerializer.Serialize(scopeOptionsMonitor.CurrentValue, options); // 会实时变化
-                ScopeOptionsSnapshotValue = JsonSerializer.Serialize(scopeOptionsSnapshot.Value, options); // 会实时变化
-            }
+            using IResolverContext resolver = HearthApp.CONTAINER.OpenScope();
+            IOptions<SampleSettings> scopeOptions = resolver.Resolve<IOptions<SampleSettings>>();
+            IOptionsMonitor<SampleSettings> scopeOptionsMonitor = resolver.Resolve<IOptionsMonitor<SampleSettings>>();
+            IOptionsSnapshot<SampleSettings> scopeOptionsSnapshot = resolver.Resolve<IOptionsSnapshot<SampleSettings>>();
+            ScopeOptionsValue = JsonSerializer.Serialize(scopeOptions.Value, options); // 不会变化
+            ScopeOptionsMonitorValue = JsonSerializer.Serialize(scopeOptionsMonitor.CurrentValue, options); // 会实时变化
+            ScopeOptionsSnapshotValue = JsonSerializer.Serialize(scopeOptionsSnapshot.Value, options); // 会实时变化
         }
     }
 }
