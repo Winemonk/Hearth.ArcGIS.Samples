@@ -1,4 +1,4 @@
-# Hearth ArcGIS 框架扩展（DryIoC、Options、Nlog...）
+# Hearth ArcGIS 框架扩展（DryIoC、Options、Nlog、AutoMapper...）
 
 ## 1 使用IoC、DI
 
@@ -850,4 +850,74 @@ test-2025-02-19.log
 [2025-02-19 15:34:02.0141] 1 Warn Hearth.ArcGIS.Samples.Services.TestLogService.WriteLog 19 Configured Type Logger Class LogWarning 
 [2025-02-19 15:34:02.0141] 1 Error Hearth.ArcGIS.Samples.Services.TestLogService.WriteLog 20 Configured Type Logger Class LogError 
 [2025-02-19 15:34:02.0141] 1 Fatal Hearth.ArcGIS.Samples.Services.TestLogService.WriteLog 21 Configured Type Logger Class LogCritical 
+```
+
+## 4 使用AutoMapper
+
+```csharp
+namespace Hearth.ArcGIS.Samples
+{
+    public class Person
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public DateTime Birthday { get; set; }
+    }
+}
+```
+
+```csharp
+using ArcGIS.Desktop.Framework.Contracts;
+
+namespace Hearth.ArcGIS.Samples
+{
+    public class PersonVO : ViewModelBase
+    {
+        private Guid _id;
+        public Guid Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+        private int _age;
+        public int Age
+        {
+            get => _age;
+            set => SetProperty(ref _age, value);
+        }
+        private DateTime _birthday;
+        public DateTime Birthday
+        {
+            get => _birthday;
+            set => SetProperty(ref _birthday, value);
+        }
+    }
+}
+```
+
+```csharp
+using AutoMapper;
+
+namespace Hearth.ArcGIS.Samples
+{
+    public class PersonProfile : Profile
+    {
+        public PersonProfile()
+        {
+            CreateMap<Person, PersonVO>();
+            CreateMap<PersonVO, Person>();
+        }
+    }
+}
+```
+
+```csharp
+HearthApp.CONTAINER.ConfigureMapper(typeof(PersonProfile));
 ```

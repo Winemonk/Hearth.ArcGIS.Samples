@@ -4,7 +4,7 @@
     {
         private static CustomHearthApp? _instance;
         public static CustomHearthApp Instance => _instance ??= new CustomHearthApp(new CustomContainerBuilder());
-        public CustomHearthApp(ContainerBuilderBase containerBuilder) : base(containerBuilder)
+        public CustomHearthApp(IContainerBuilder containerBuilder) : base(containerBuilder)
         {
 
         }

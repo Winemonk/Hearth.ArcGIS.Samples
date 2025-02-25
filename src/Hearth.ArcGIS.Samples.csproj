@@ -18,7 +18,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Hearth.ArcGIS" Version="1.0.0" />
+    <PackageReference Include="Hearth.ArcGIS" Version="1.0.1-rc1" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ArcGIS.Desktop.Framework">

@@ -1,6 +1,7 @@
 ﻿using ArcGIS.Desktop.Framework;
 using ArcGIS.Desktop.Framework.Contracts;
 using Hearth.ArcGIS.Samples.Configs;
+using Hearth.ArcGIS.Samples.Mappers;
 using Microsoft.Extensions.Configuration;
 
 namespace Hearth.ArcGIS.Samples
@@ -29,6 +30,9 @@ namespace Hearth.ArcGIS.Samples
             //CustomHearthApp.Instance.Container.RegisterAssemblyAndRefrencedAssembliesTypes(this.GetType().Assembly);
             HearthApp.CONTAINER.Configure<SampleSettings>(configuration.GetSection(typeof(SampleSettings).Name));
             HearthApp.CONTAINER.RegisterAssemblyAndRefrencedAssembliesTypes(this.GetType().Assembly);
+
+            //HearthApp.CONTAINER.ConfigureMapper<PersonProfile>();
+            HearthApp.CONTAINER.ConfigureMapper(typeof(PersonProfile));
         }
     }
 }

@@ -22,6 +22,7 @@
 					<button refID="Hearth_ArcGIS_Samples_PlugIns_Menus_OpenSampleWindow1Button" size="large" />
 					<button refID="Hearth_ArcGIS_Samples_PlugIns_Menus_OpenOptionsSamplePaneButton" size="large" />
 					<button refID="Hearth_ArcGIS_Samples_PlugIns_Menus_LogSampleButton" size="large" />
+					<button refID="Hearth_ArcGIS_Samples_PlugIns_Menus_AutoMapperSampleButton" size="large" />
 				</group>
 			</groups>
 			<controls>
@@ -48,6 +49,11 @@
 				<button id="Hearth_ArcGIS_Samples_PlugIns_Menus_LogSampleButton" caption="日志样例" className="Hearth.ArcGIS.Samples.PlugIns.Menus.LogSampleButton" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue32.png">
 					<tooltip heading="提示">
 						日志样例<disabledText />
+					</tooltip>
+				</button>
+				<button id="Hearth_ArcGIS_Samples_PlugIns_Menus_AutoMapperSampleButton" caption="自动映射样例" className="Hearth.ArcGIS.Samples.PlugIns.Menus.AutoMapperSampleButton" loadOnClick="true" smallImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue16.png" largeImage="pack://application:,,,/ArcGIS.Desktop.Resources;component/Images/GenericButtonBlue32.png">
+					<tooltip heading="提示">
+						自动映射样例<disabledText />
 					</tooltip>
 				</button>
 			</controls>
